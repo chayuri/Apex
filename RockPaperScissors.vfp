@@ -1,0 +1,18 @@
+<!-- Page: -->
+<apex:page controller="sampleCon">
+    <apex:form >
+        <apex:selectList value="{!hands}" multiselect="false" size="1">
+            <apex:selectOptions value="{!items}"/>
+        </apex:selectList><p/>
+        <apex:commandButton value="勝負！" action="{!test}" rerender="out" status="status"/>
+    </apex:form>
+     <apex:outputPanel id="out">
+        <apex:actionstatus id="status" startText="testing...">
+            <apex:facet name="stop">
+                <apex:outputPanel >
+                    <apex:dataList value="{!hands}" var="c">{!c}</apex:dataList>
+                </apex:outputPanel>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputPanel>
+</apex:page>
