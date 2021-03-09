@@ -15,22 +15,28 @@
       <h1>じゃんけんで3本勝負！！</h1>
       <apex:form >
         <div class="handlist">
+          // handsよりかはfirstHandで良いと思います
           <apex:selectList value="{!hands}" multiselect="false" size="1">
             1本目に出す手は：<apex:selectOptions value="{!items}"/>
           </apex:selectList><p/>
         </div>
         <div class="handlist">
+          // hands2よりかはsecondHandで良いと思います
           <apex:selectList value="{!hands2}" multiselect="false" size="1">
             2本目に出す手は：<apex:selectOptions value="{!items}"/>
           </apex:selectList><p/>
         </div>
         <div class="handlist">
+          // hands3よりかはthirdHandで良いと思います
           <apex:selectList value="{!hands3}" multiselect="false" size="1">
             3本目に出す手は：<apex:selectOptions value="{!items}"/>
           </apex:selectList><p/>
         </div>
+        // testという変数名ではなく、fightとかでも良いと思います
         <apex:commandButton value="勝負！" action="{!test}" rerender="out" status="status" />
       </apex:form>
+      // <apex:message>や、<apex:messages>といったコンポーネントが使えますので、そちらのご利用も検討ください
+      // たとえばtextfieldの下にValidation Errorを出すHTML5チックなことも可能です
       <apex:outputPanel id="out">{!errmessage}</apex:outputPanel>
     </div>
   </body>
