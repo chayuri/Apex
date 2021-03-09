@@ -1,5 +1,8 @@
+// Javaと同様にクラス名は先頭大文字とかにすると良いかと思います
+// Apexとはいえ、Javaでよく使われているコーディング規約に従うと読みやすくなります
 public class sampleCon {
         // 手（1～3本目）    
+        // 値を加工しない場合はset;get;で十分だと思います
         String hands;
         String hands2;
         String hands3;
@@ -7,6 +10,9 @@ public class sampleCon {
         String result;
         String result2;
         String result3;
+        // インスタンス変数の使い回しが気になるところです
+        // インスタンス変数があるとテストコードを書く際に、そこも考慮しなければならなくなってしまうので、
+        // 必要な時以外は使わない方が良いかと思っています
         Integer tmpwin = 0;
         Integer tmpdraw = 0;
         Integer tmplose = 0;
@@ -43,6 +49,7 @@ public class sampleCon {
             pr.getParameters().put('tmpresult', this.tmpresult);
             pr.getParameters().put('totalresult', this.totalresult);
             if ( hands == '-1' || hands2 == '-1' || hands3 == '-1' ){
+                // <apex:message>とかを使うと、return PageReference(...)のようなコードになります
                 errmessage = '1～3本目のすべての手を選択してください';
                 return null;
             } else {
@@ -108,6 +115,7 @@ public class sampleCon {
           return Math.mod(rand, upperLimit);
         }
 
+        // じゃんけんアルゴリズムを導入されるとぐっと短いコードになりますので、興味ございましたら勉強いただけますと
         public String getResult( String hands ) {
             Integer rand =  getRandomNumber(3);
             String result;
@@ -154,6 +162,8 @@ public class sampleCon {
                     tmpdraw = tmpdraw + 1;
                 }
             } else {
+                // 呼び出し元にresultが空文字であった時の条件分岐が無いです。
+                // 個人的にはここは例外を出したいところだと考えます
                 result = '';
             }
             
@@ -162,6 +172,8 @@ public class sampleCon {
             return result;
         } 
     
+        // insertDBというメソッド名ですが、中身にinsert処理が無いので、
+        // 適切なメソッド名に変更された方がよいかと思われます
         public void insertDB(Integer score) {
             this.score = score;
             if ( score == 6 ){
