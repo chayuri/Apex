@@ -1,5 +1,6 @@
 public class sampleCon {
         // 手（1～3本目）    
+        // 値を加工しない場合はset;get;で十分だと思います
         String hands;
         String hands2;
         String hands3;
