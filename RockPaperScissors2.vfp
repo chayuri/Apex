@@ -1,0 +1,64 @@
+<apex:page controller="sampleCon2" applyBodyTag="false">
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <apex:form >
+    <div id="content">
+      <h1>èüîsåãâ </h1>
+      <apex:outputPanel id="out">
+         <apex:actionstatus id="status" startText="loading...">
+           <apex:facet name="stop">
+             <apex:outputPanel >
+               <ul>
+                 <li><apex:outputText value="{!result}"/></li>
+                 <li><apex:outputText value="{!result2}"/></li>
+                 <li><apex:outputText value="{!result3}"/></li>
+                 <li><apex:outputText value="{!tmpresult}"/></li>
+                 <li><apex:outputText value="{!totalresult}"/></li>
+               </ul>
+             </apex:outputPanel>
+           </apex:facet>
+         </apex:actionstatus>
+      </apex:outputPanel>
+      <apex:commandButton value="Ç‡Ç§àÍìxèüïâÅI" action="{!returnPage}" rerender="out" status="status" />
+    </div>
+    <style>
+      body {
+        width: 100%;
+        font-family: 'Noto Sans JP', sans-serif;
+        text-align: center;
+      }
+      body .btn {
+        background-color: #007bff;
+        border-color: #007bff;
+        background-image: none;
+        width: 80px;
+        height: 40px;
+        font-size: 18px;
+        color: #ffffff;
+        font-family: 'Noto Sans JP', sans-serif;
+      }
+      body .btn:hover {
+        color: #ffffff;
+        background-color: #72b6ff;
+        border-color: #72b6ff;
+      }
+      #content {
+        margin-top: 20px;
+      }
+      h1 { 
+        font-size: 20px;
+        padding: 5px;
+      }
+      .handlist {
+        margin-top: 15px;
+      }
+      #j_id0:out {
+        color: red;
+      }
+      li {
+        list-style-type: none;
+      }
+    </style>
+  </apex:form>
+</apex:page>

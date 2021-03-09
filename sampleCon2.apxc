@@ -1,0 +1,22 @@
+public class sampleCon2 {
+    public String result {set; get;}
+    public String result2 {set; get;}
+    public String result3 {set; get;}
+    public String tmpresult {set; get;}
+    public String totalresult {set; get;}
+    public sampleCon2(){
+        this.result = ApexPages.currentPage().getParameters().get('result');
+        this.result2 = ApexPages.currentPage().getParameters().get('result2');
+        this.result3 = ApexPages.currentPage().getParameters().get('result3');
+        this.tmpresult = ApexPages.currentPage().getParameters().get('tmpresult');
+        this.totalresult = ApexPages.currentPage().getParameters().get('totalresult');
+        // System.debug(tmpresult);
+        getTmpresult();
+    }
+    public PageReference returnPage(){
+        return Page.RockPaperScissors;
+    }
+    public String getTmpresult() {
+        return tmpresult;
+    }
+}

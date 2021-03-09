@@ -1,18 +1,72 @@
 <!-- Page: -->
-<apex:page controller="sampleCon">
-    <apex:form >
-        <apex:selectList value="{!hands}" multiselect="false" size="1">
-            <apex:selectOptions value="{!items}"/>
-        </apex:selectList><p/>
-        <apex:commandButton value="勝負！" action="{!test}" rerender="out" status="status"/>
-    </apex:form>
-     <apex:outputPanel id="out">
-        <apex:actionstatus id="status" startText="testing...">
-            <apex:facet name="stop">
-                <apex:outputPanel >
-                    <apex:dataList value="{!hands}" var="c">{!c}</apex:dataList>
-                </apex:outputPanel>
-            </apex:facet>
-        </apex:actionstatus>
-    </apex:outputPanel>
+<apex:page controller="sampleCon" applyBodyTag="false">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <apex:slds />
+    <div id="content">
+      <h1>じゃんけんで3本勝負！！</h1>
+      <apex:form >
+        <div class="handlist">
+          <apex:selectList value="{!hands}" multiselect="false" size="1">
+            1本目に出す手は：<apex:selectOptions value="{!items}"/>
+          </apex:selectList><p/>
+        </div>
+        <div class="handlist">
+          <apex:selectList value="{!hands2}" multiselect="false" size="1">
+            2本目に出す手は：<apex:selectOptions value="{!items}"/>
+          </apex:selectList><p/>
+        </div>
+        <div class="handlist">
+          <apex:selectList value="{!hands3}" multiselect="false" size="1">
+            3本目に出す手は：<apex:selectOptions value="{!items}"/>
+          </apex:selectList><p/>
+        </div>
+        <apex:commandButton value="勝負！" action="{!test}" rerender="out" status="status" />
+      </apex:form>
+      <apex:outputPanel id="out">{!errmessage}</apex:outputPanel>
+    </div>
+  </body>
+  <style>
+    body {
+      width: 100%;
+      font-family: 'Noto Sans JP', sans-serif;
+      text-align: center;
+    }
+    body .btn {
+      background-color: #007bff;
+      border-color: #007bff;
+      background-image: none;
+      width: 80px;
+      height: 40px;
+      font-size: 18px;
+      color: #ffffff;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    body .btn:hover {
+      color: #ffffff;
+      background-color: #72b6ff;
+      border-color: #72b6ff;
+    }
+    #content {
+      margin-top: 20px;
+    }
+    h1 { 
+      font-size: 20px;
+      padding: 5px;
+    }
+    .handlist {
+      margin-top: 15px;
+    }
+    #out {
+      color: red;
+    }
+  </style>
 </apex:page>

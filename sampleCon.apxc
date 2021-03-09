@@ -1,16 +1,59 @@
 public class sampleCon {
+        // 手（1～3本目）    
         String hands;
+        String hands2;
+        String hands3;
+        // 対戦結果（1～3本目）    
+        String result;
+        String result2;
+        String result3;
+        Integer tmpwin = 0;
+        Integer tmpdraw = 0;
+        Integer tmplose = 0;
+        String tmpresult;
+        // 勝敗スコア（1～3本目合計）
+        // ～5点：負け、6点：引き分け、7点～：勝ち
+        Integer score = 0;   
+        // 通算勝敗数
+        String totalresult;
+        // エラーメッセージ
+        String errmessage;
         
         RockPaperScissors__c newResult;
                 
         public PageReference test() {
+            result = getResult(hands);
+            result2 = getResult(hands2);
+            result3 = getResult(hands3);
+            totalresult = getTotal();
+            tmpresult = getTmp();
+            insertDB(score);
             insert newResult;
-            return null;
+            //System.debug(score);
+            //newResult = null;
+            tmpwin = 0;
+            tmpdraw = 0;
+            tmplose = 0;
+            score = 0;
+            //return null;
+            PageReference pr = Page.RockPaperScissors2;
+            pr.getParameters().put('result', this.result);
+            pr.getParameters().put('result2', this.result2);
+            pr.getParameters().put('result3', this.result3);
+            pr.getParameters().put('tmpresult', this.tmpresult);
+            pr.getParameters().put('totalresult', this.totalresult);
+            if ( hands == '-1' || hands2 == '-1' || hands3 == '-1' ){
+                errmessage = '1～3本目のすべての手を選択してください';
+                return null;
+            } else {
+                return pr;
+            }
         }
         
         //グーチョキパープルダウンリストの表示
         public List<SelectOption> getItems() {
             List<SelectOption> options = new List<SelectOption>();
+            options.add(new SelectOption('-1','選択してください'));
             options.add(new SelectOption('0','グー'));
             options.add(new SelectOption('1','チョキ'));
             options.add(new SelectOption('2','パー'));
@@ -19,45 +62,136 @@ public class sampleCon {
               
         //対戦結果の表示
         public String getHands() {
+            return result;
+        }
+
+        public String getHands2() {
+            return result2;
+        }
+
+        public String getHands3() {
+            return result3;
+        }
+    
+        public String getTotalresult() {
+            return totalresult;
+        }
+    
+        public String getTmpresult() {
+            return tmpresult;
+        }
+    
+        public String getErrmessage() {
+            return errmessage;
+        }
+        
+        //対戦結果の表示
+        public void setHands(String hands) {
+            this.hands = hands;
+        }
+        public void setHands2(String hands2) {
+            this.hands2 = hands2;
+        }
+        public void setHands3(String hands3) {
+            this.hands3 = hands3;
+        }
+        public void totalresult(String totalresult) {
+            this.totalresult = totalresult;
+        }   
+    
+        //対戦相手の手を決める（ランダム）
+        public static Integer getRandomNumber(Integer upperLimit) {
+          if (upperLimit == null || upperLimit <= 0) {
+              return 0;
+          }
+          Integer rand = Math.round(Math.random()*1000);
+          return Math.mod(rand, upperLimit);
+        }
+
+        public String getResult( String hands ) {
             Integer rand =  getRandomNumber(3);
             String result;
             if ( rand == 0 ) {
                 if ( hands == '0'){
-                    result = '相手はグーで、引き分けです';
-                    newResult = new RockPaperScissors__c(Name = 'draw');
+                    result = '相手：グー　あなた：グー';
+                    score = score + 2;
+                    tmpdraw = tmpdraw + 1;
                 } else if (hands == '1'){
-                    result = '相手はグーで、あなたの負けです';
-                    newResult = new RockPaperScissors__c(Name = 'lose');
-                } else {
-                    result = '相手はグーで、あなたの勝ちです';
-                    newResult = new RockPaperScissors__c(Name = 'win');
+                    result = '相手：グー　あなた：チョキ';
+                    score = score + 1;
+                    tmplose = tmplose + 1;
+                } else if (hands == '2'){
+                    result = '相手：グー　あなた：パー';
+                    score = score + 3;
+                    tmpwin = tmpwin + 1;
                 }
             } else if ( rand == 1 ) {
                 if ( hands == '0'){
-                    result = '相手はチョキで、あなたの勝ちです';
-                    newResult = new RockPaperScissors__c(Name = 'win');
+                    result = '相手：チョキ　あなた：グー';
+                    score = score + 3;
+                    tmpwin = tmpwin + 1;
                 } else if (hands == '1'){
-                    result = '相手はチョキで、引き分けです';
-                    newResult = new RockPaperScissors__c(Name = 'draw');
-                } else {
-                    result = '相手はチョキで、あなたの負けです';
-                    newResult = new RockPaperScissors__c(Name = 'lose');
+                    result = '相手：チョキ　あなた：チョキ';
+                    score = score + 2;
+                    tmpdraw = tmpdraw + 1;
+                } else if (hands == '2'){
+                    result = '相手：チョキ　あなた：パー';
+                    score = score + 1;
+                    tmplose = tmplose + 1;
                 }
             } else if ( rand == 2 ) {
                 if ( hands == '0'){
-                    result = '相手はパーで、あなたの負けです';
-                    newResult = new RockPaperScissors__c(Name = 'lose');
+                    result = '相手：パー　あなた：グー';
+                    score = score + 1;
+                    tmplose = tmplose + 1;
                 } else if (hands == '1'){
-                    result = '相手はパーで、あなたの勝ちです';
-                    newResult = new RockPaperScissors__c(Name = 'win');
-                } else {
-                    result = '相手はパーで、引き分けです';
-                    newResult = new RockPaperScissors__c(Name = 'draw');
+                    result = '相手：パー　あなた：チョキ';
+                    score = score + 3;
+                    tmpwin = tmpwin + 1;
+                } else if (hands == '2'){
+                    result = '相手：パー　あなた：パー';
+                    score = score + 2;
+                    tmpdraw = tmpdraw + 1;
                 }
             } else {
                 result = '';
             }
             
+            //System.debug('スコアは' + String.valueOf(score));
+                       
+            return result;
+        } 
+    
+        public void insertDB(Integer score) {
+            this.score = score;
+            if ( score == 6 ){
+                newResult = new RockPaperScissors__c(Name = 'draw');
+            } else if ( score > 6 ){
+                newResult = new RockPaperScissors__c(Name = 'win');
+            } else if ( score > 0 ){
+                newResult = new RockPaperScissors__c(Name = 'lose');
+            } else {
+                newResult = new RockPaperScissors__c(Name = 'err');
+            }
+            //score = 0;
+        }
+
+        public String getTmp() {
+            String tmpresult1 = '【' + String.valueOf(tmpwin) + '勝' + String.valueOf(tmplose) + '敗' + String.valueOf(tmpdraw) + '引き分けで';
+            String tmpresult2;
+            if ( score == 6 ){
+                tmpresult2 = '引き分けです】';
+            } else if ( score > 6 ){
+                tmpresult2 = 'あなたの勝ちです】';
+            } else if ( score > 0 ){
+                tmpresult2 = 'あなたの負けです】';
+            } else {
+                tmpresult2 = '例外です';
+            }
+            return tmpresult1 + tmpresult2;
+        } 
+    
+        public String getTotal() {
             //トータル勝負結果の取得
             //勝ち回数
             Integer ResultCountWin  = [SELECT COUNT() FROM RockPaperScissors__c WHERE Name = 'win'];
@@ -68,21 +202,8 @@ public class sampleCon {
             //引き分け回数
             Integer ResultCountDraw = [SELECT COUNT() FROM RockPaperScissors__c WHERE Name = 'draw'];
             String RCountDraw       = String.valueOf(ResultCountDraw);
-            
-            return result + '【これまでの通算成績は' + RCountWin + '勝' + RCountLose + '敗' + RCountDraw + '引き分けです】';
-        }     
-        
-        //対戦結果の表示
-        public void setHands(String hands) {
-            this.hands = hands;
-        }
-    
-        //対戦相手の手を決める（ランダム）
-        public static Integer getRandomNumber(Integer upperLimit) {
-          if (upperLimit == null || upperLimit <= 0) {
-              return 0;
-          }
-          Integer rand = Math.round(Math.random()*1000);
-          return Math.mod(rand, upperLimit);
-        }
+
+            String total = '【これまでの通算成績は' + RCountWin + '勝' + RCountLose + '敗' + RCountDraw + '引き分けです】';
+            return total;
+        } 
     }
